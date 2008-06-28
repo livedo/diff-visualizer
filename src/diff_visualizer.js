@@ -77,39 +77,42 @@ console.log(this.legend);
 		this.ctx.stroke();
 		
 		
-		this.data.each(this.renderRecord.curry({
+		this.data.each(this.renderRecord.curry(this.ctx, {
 			positive: this.positiveColor,
 			negative: this.negativeColor,
-			gridline: this.gridLineColor
+			gridLine: this.gridLineColor
 		}).bind(this));
 	},
-	renderRecord: function(colors,record, i) {
+	renderRecord: function(ctx,colors,record, i) {
 //DEBUG//console.log('rendering record ' + record);
-		var label = record[0];
 		var posHeight = (record[1][0]/this.scaleMax)*this.xAxisPosition;
 		var negHeight = (record[1][1]/this.scaleMax)*this.xAxisPosition;
 		var xPosition = i*(this.barWidth);
 //DEBUG//console.log("ph:" + posHeight + " nh:" + negHeight + " xp:" + xPosition);
-	    this.ctx.fillStyle = this.positiveColor;
-	    this.ctx.fillRect (xPosition+1, this.xAxisPosition-1-posHeight, this.barWidth-4, posHeight);
 
-	    this.ctx.fillStyle = this.negativeColor;
-	    this.ctx.fillRect (xPosition+1, this.xAxisPosition+1, this.barWidth-4, negHeight);
+		if (ctx.fillStyle = colors.background) {
+		    ctx.fillRect (xPosition-1, 0, this.barWidth+1, this.height);
+		}
+	    ctx.fillStyle = colors.positive;
+	    ctx.fillRect (xPosition+1, this.xAxisPosition-1-posHeight, this.barWidth-4, posHeight);
 
-		this.ctx.strokeStyle = this.gridLineColor;
-		this.ctx.lineWidth = 0.5; // Fixed
-		this.ctx.beginPath();
-		this.ctx.moveTo(xPosition+this.barWidth-1,0);
-		this.ctx.lineTo(xPosition+this.barWidth-1,this.height);
-		this.ctx.closePath();
-		this.ctx.stroke();
+	    ctx.fillStyle = colors.negative;
+	    ctx.fillRect (xPosition+1, this.xAxisPosition+1, this.barWidth-4, negHeight);
+
+		ctx.strokeStyle = colors.gridLine;
+		ctx.lineWidth = 0.5; // Fixed
+		ctx.beginPath();
+		ctx.moveTo(xPosition+this.barWidth-1,0);
+		ctx.lineTo(xPosition+this.barWidth-1,this.height);
+		ctx.closePath();
+		ctx.stroke();
 	},
 	mouseMove: function(event) {
-//		console.log(event.pointerX());				
 		var positions = {top: event.pointerY()-this.screenPosition.top,
 			 			 left: event.pointerX()-this.screenPosition.left}
-		var record = this.data[parseInt(positions.left/this.barWidth)]; // Determine the record we are on
-		// Clear whatever previous stuff
+		var index = parseInt(positions.left/this.barWidth);
+		var record = this.data[index]; // Determine the record we are on
+		// Clear existing
 		this.innerCtx.clearRect(0,0,this.innerCanvas.width,this.innerCanvas.height); 
 		
 		if(record && (this.height>positions.top)) {
@@ -119,7 +122,12 @@ console.log(this.legend);
 
 			// Let's draw the highlights
 			
-			
+			this.renderRecord(this.innerCtx, { // TODO: paremeterize
+				positive: "#aacafe", //"#1021ff", //"rgb(0,8,255)",
+				negative: "#eaaaaa", //"#ff2122", ///"rgb(155,4,10)",
+				gridLine: "#000000",
+				background: "#000000"
+			}, record, index);
 
 			// Let's draw the offset lines
 			ctx.strokeStyle = this.legend.boxFill; // "rgba(0,0,0,0.5)"; // Fixed
