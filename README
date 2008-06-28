@@ -1,0 +1,9 @@
+The Diff Visualizer
+====================
+Author: Mikael Roos
+License: MIT
+
+The diff visualizer generates visual representations of multiple diffs. (Given a label and number of added/deleted lines)
+
+
+Copyright Mikael Roos, Nodeta Oy 2008
