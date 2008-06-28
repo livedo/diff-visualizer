@@ -1,11 +1,10 @@
-VisualDiff = Class.create();
-
+DiffVisualizer = Class.create();
+DiffVisualizer.prototype = {
 /**
  * canvas: a canvas element
  * data: an array of the form [[key, [posval, negval]], ...]
  * options: dimensions, colors
  */
-VisualDiff.prototype = {
 	initialize: function(canvas, data, options) {
 		if (!canvas) throw "No canvas given!";
 		if (!data) throw "No data given!";
@@ -14,7 +13,6 @@ VisualDiff.prototype = {
 //		CanvasTextFunctions.enable(this.ctx);
 		this.screenPosition = this.canvas.cumulativeOffset();
 		this.data = data;
-
 
 		options = options || {};
 		// TODO: should the user be able to define dimensions here? 
@@ -29,6 +27,8 @@ VisualDiff.prototype = {
 		this.xAxisStyle = options.xAxisStyle || '#ffffff';
 //		this.xAxisWidth;
 		this.gridLineColor = options.gridLineColor || "rgba(255,255,255,0.25)";
+
+		this.onClick = options.onClick || Prototype.emptyFunction;
 		
 		var defaultLegend =  {
 			boxFill: "rgba(10,10,10,0.9)",
@@ -117,6 +117,10 @@ console.log(this.legend);
 			var containerY = positions.top+this.legend.yOffset;
 			var ctx = this.innerCtx; // For shorter syntax. Is this heavy?
 
+			// Let's draw the highlights
+			
+			
+
 			// Let's draw the offset lines
 			ctx.strokeStyle = this.legend.boxFill; // "rgba(0,0,0,0.5)"; // Fixed
 			ctx.lineWidth = 1.8; // TODO: to settings
@@ -156,6 +160,11 @@ console.log(this.legend);
 			ctx.strokeStyle = this.negativeColor;
 			ctx.drawText(font, fontsize, containerX+padding, containerY+rowHeight*3, "-"+record[1][1]);
 		}
-		
+	},
+	click: function(event) {
+		this.onClick();
+	},
+	isInsideCanvas: function(event) {
+		return false; // TODO: implement
 	}
 }
