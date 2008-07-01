@@ -1,3 +1,11 @@
+//////////////////////////////////////////////////////////////////////////
+// DiffVisualizer - a canvas based visualization for a consecutive set of diffs
+// Written by Mikael Roos
+// Copyright Nodeta Oy 2008
+//////////////////////////////////////////////////////////////////////////
+
+// TODO: Support for IE7+
+
 DiffVisualizer = Class.create();
 DiffVisualizer.prototype = {
 /**
@@ -41,7 +49,6 @@ DiffVisualizer.prototype = {
 			containerWidth: 100
 		}
 		this.legend = $H(defaultLegend).merge(options.legend || {}).toObject(); // Not cool
-console.log(this.legend);
 
 		// Get max value from data to define scale if it's not defined
 		this.scaleMax = options.scaleMax || this.data.max(function(record) { return record[1].max() })+1;
