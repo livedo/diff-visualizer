@@ -1,9 +1,8 @@
 The Diff Visualizer
 ====================
 Author: Mikael Roos
-License: MIT
 
-The diff visualizer generates visual representations of multiple diffs. (Given a label and number of added/deleted lines)
+The diff visualizer generates visual representations of multiple consecutive diffs. Uses canvas. Does not currently work on IE.
 
 
 Copyright Mikael Roos, Nodeta Oy 2008
