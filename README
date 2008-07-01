@@ -2,7 +2,8 @@ The Diff Visualizer
 ====================
 Author: Mikael Roos
 
-The diff visualizer generates visual representations of multiple consecutive diffs. Uses canvas. Does not currently work on IE.
+The Diff Visualizer generates visual representations of multiple consecutive diffs. Uses canvas. Does not currently work on IE.
+Simply generates a positive bar for number of added lines and a negative bar for number of removed lines. Also takes a label for each diff.
 
 
 Copyright Mikael Roos, Nodeta Oy 2008
